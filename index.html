@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <script type="text/javascript" src="js/script.js"></script>
+    <h1><script>document.write(title)</script></h1>
+    <form name="quiz">
+        <ol>
+            <script>
+                for(var q=0; q<questions.length; ++q) {
+                    var question = questions[q];
+                    var idx = 1 + q;
+
+                    document.writeln('<li><span class="quest">' + question.text + '</span><br/>');
+                    for(var i in question.answers) {
+                        document.writeln('<input type=radio name="q' + idx + '" value="' + i +'" onClick="Engine(' + q + ', this.value)">' + question.answers[i] + '<br/>');
+                    }
+                }
+            </script>
+        </ol>
+        <input type="button" onClick="Modal()" value="Check" />
+    </form>
+
+</body>
+</html>

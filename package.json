@@ -1,0 +1,27 @@
+{
+    "name": "project",
+    "version": "1.0.0",
+    "description": "JS 13-14 with Gulp",
+    "main": "index.html",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SviatoslavK/GoIT_JS_13-14.git"
+    },
+    "keywords": [
+        "js",
+        "gulp"
+    ],
+    "author": "Sviatoslav Koloda",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/SviatoslavK/GoIT_JS_13-14/issues"
+    },
+    "devDependencies": {
+        "gulp": "^3.9.1",
+        "gulp-concat": "^2.6.0",
+        "gulp-minify-css": "^1.2.4",
+        "gulp-notify": "^2.2.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-uglify": "^2.0.0"
+    }
+}

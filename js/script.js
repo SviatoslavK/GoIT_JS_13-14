@@ -1,95 +1,68 @@
-"use strict";
-var questions=[
-    {
-        text: "What is the correct HTML5 DOCTYPE declaration?",
-        answers: [
-            "!DOCTYPE html",
-            "!DOCTYPE html5",
-            "DOCTYPE html",
-            "DOCTYPE html5"
-        ],
-        correctAnswer: 0
-    },
-    {
-        text: "What is the full form of HTML?",
-        answers: [
-            "Hypertext Machine Language",
-            "Hypertext Memory Language",
-            "High Tech Markup Language",
-            "Hypertext Markup Language"
-        ],
-        correctAnswer: 3
-    },
-    {
-        text: "What is the attribute on img tag to specify the image URL?",
-        answers: [
-            "link",
-            "rel",
-            "src",
-            "href"
-        ],
-        correctAnswer: 2
-    },
-    {
-        text: "Which of the following in an inline element?",
-        answers: [
-            "p",
-            "div",
-            "img",
-            "li"
-        ],
-        correctAnswer: 2
-    },
-    {
-        text: "What is the tag that is used to load and external stylesheet?",
-        answers: [
-            "link",
-            "style",
-            "script",
-            "css"
-        ],
-        correctAnswer: 0
+;"use strict"
+$(function(){
+    // получаем JSON объект и записываем уго в Local Storage в виде строки
+    $.getJSON("http://www.json-generator.com/api/json/get/bUqmHPelWq?indent=2", function (data) {
+        localStorage.setItem('questions', JSON.stringify(data));
+    });
+});
+    // записываем в переменную данные из хранилища и переводим в объект
+    var test = localStorage.getItem('questions');
+        test = JSON.parse(test);
+
+    // шаблон для генерации опросника
+    var title = 'FrontEnd Quiz';
+    var btnValue = 'Check'
+    var quizTemplate = document.getElementById('template').innerHTML;
+    var html = _.template(quizTemplate)(test);
+    document.write(html);
+
+    // шаблон для кнопки
+    var btnTemplate = document.getElementById('button').innerHTML;
+    var btn = _.template(btnTemplate)();
+    document.write(btn);
+
+    // получение ответов и запись в массив
+    var yourAns = new Array;
+    var score = 0;
+    function Engine(test, answer) {
+        yourAns[test]=answer
+    };
+
+    // логика появления и скрытия модального окна
+    var modalWindow = document.getElementById('modal_form');
+    var overlay = document.getElementById('overlay');
+
+function showModal() {
+        modalWindow.style.display = 'block';
+        modalWindow.style.opacity = 1;
+        overlay.style.display = 'block';
     }
-];
-localStorage.questions = JSON.stringify(questions);
-questions = localStorage.questions ? JSON.parse(localStorage.questions) : [];
-
-var title = 'FrontEnd Quiz';
-var subtitle = "Этот тест позволяет оценить Ваши знания";
-
-
-var yourAns = new Array;
-var score = 0;
-function Engine(question, answer) {yourAns[question]=answer;}
-console.log(yourAns);
+function closeModal() {
+        modalWindow.style.display = 'none';
+        modalWindow.style.opacity = 0;
+        overlay.style.display = 'none';
+        clearForm("quiz");
+    }
 
 function Modal(){
-    var answerText = "Your result:\n";
-    for(var i = 0; i < yourAns.length; ++i){
-        var num = i+1;
-        answerText=answerText+"Question №"+ num +"\n";
-        if(yourAns[i]!=questions[i].correctAnswer){
-            answerText=answerText+"Right answer: " +
-                questions[i].answers[questions[i].correctAnswer] + "\n";
-        }
-        else{
-            answerText=answerText+"Right! \n";
-            ++score;
-        }
-    }
-    answerText=answerText+" Number of correct answers: "+score+"\n";
+    showModal();
 
-    alert(answerText);
+    // шаблон для модального окна
+    var modalTemplate = document.getElementById('myModal').innerHTML;
+    var modal = _.template(modalTemplate)();
+    modalWindow.innerHTML = modal;
+
     yourAns = [];
     score = 0;
-    clearForm("quiz");
-}
+};
+
+// функция очистки формы
 function clearForm(name) {
     var f = document.forms[name];
-    for(var i = 0; i < f.elements.length; ++i) {
-        if(f.elements[i].checked)
-            f.elements[i].checked = false;
+    var elements = document.getElementsByTagName('input');
+    for(var i = 0; i < elements.length; i++) {
+        if(elements[i].checked)
+            elements[i].checked = false;
     }
-}
-
+};
 

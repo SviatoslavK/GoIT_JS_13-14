@@ -3,27 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="dist/css/bundle.min.css">
 </head>
 <body>
 
-    <script type="text/javascript" src="js/script.js"></script>
-    <h1><script>document.write(title)</script></h1>
-    <form name="quiz">
-        <ol>
-            <script>
-                for(var q=0; q<questions.length; ++q) {
-                    var question = questions[q];
-                    var idx = 1 + q;
+    <script type="text/template" id="template">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 quiz__wrapper">
+                    <h1><%= title %></h1>
+                    <form name="quiz" id="quiz">
+                        <ol>
+                            <% for (var i = 0; i < test.length; i++) { %>
+                                <li><span class="quest"><%- test[i].text  %></span></li>
+                                <% for (var k in test[i].answers) { %>
+                                    <label>
+                                    <input type=radio name="q<%= +i+1 %>" value="<%= k %>"  onClick="Engine(<%= i %>, this.value)">
+                                    <span><%- test[i].answers[k] %></span><br/>
+                                    </label>
+                                <% } %>
+                            <% } %>
+                        </ol>
+                    </form>
+                    <button class="btn btn-primary" id="submit" onclick="Modal()"><%-btnValue%></button>
+                </div>
+            </div>
+        </div>
 
-                    document.writeln('<li><span class="quest">' + question.text + '</span><br/>');
-                    for(var i in question.answers) {
-                        document.writeln('<input type=radio name="q' + idx + '" value="' + i +'" onClick="Engine(' + q + ', this.value)">' + question.answers[i] + '<br/>');
-                    }
-                }
-            </script>
-        </ol>
-        <input type="button" onClick="Modal()" value="Check" />
-    </form>
+        <div id="modal_form"></div>
+        <div id="overlay" onClick="closeModal()"></div>
+    </script>
+    <script type="text/template" id="button"></script>
+    <script type="text/template" id="myModal">
+        <span id="modal_close" onClick="closeModal()">X</span>
+        <% var answerText = "Your result: "%>
+        <h1><%-answerText %></h1>
+        <% for (var i = 0; i < yourAns.length; i++) { %>
+            <% var num = i + 1%>
+            <% answerText = "Question №" + num + ":"%>
+            <span class="modal-quest"><%-answerText%></span><br/>
+            <% if (yourAns[i] != test[i].correctAnswer) {
+               answerText="Right answer: " + test[i].answers[test[i].correctAnswer]
+               print('<span>' + answerText + '</span><br/>')
+             }
+             else {
+                answerText = "Right! \n";
+                print('<span>' + answerText + '</span><br/>')
+                ++score;
+             } %>
+        <% } %>
+        <% answerText = 'Number of correct answers: ' + score%>
+        <span><%-answerText %></span><br/>
+    </script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"></script>
+    <script type="text/javascript" src="dist/js/bundle.min.js"></script>
 </body>
 </html>

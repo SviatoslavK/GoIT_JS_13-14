@@ -1,8 +1,9 @@
-var gulp = require('gulp'),
-    concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
+var gulp      = require('gulp'),
+    concat    = require('gulp-concat'),
+    rename    = require('gulp-rename'),
     minifyCSS = require('gulp-minify-css'),
-    uglify = require('gulp-uglify');
+    uglify    = require('gulp-uglify'),
+    babel     = require('gulp-babel');
 
 gulp.task('default', function() {
     gulp.src('css/*.css')
@@ -14,6 +15,7 @@ gulp.task('default', function() {
 
 gulp.task('compress', function () {
     gulp.src('js/*.js')
+        .pipe(babel())
         .pipe(concat('bundle.js'))
         .pipe(rename('bundle.min.js'))
         .pipe(uglify())
@@ -22,4 +24,5 @@ gulp.task('compress', function () {
 
 gulp.task('watch', function() {
     gulp.watch('css/*.css', ['default'])
+    gulp.watch('js/*.js', ['compress'])
 });

@@ -1,4 +1,4 @@
-;"use strict"
+;'use strict';
 $(function(){
     // получаем JSON объект и записываем уго в Local Storage в виде строки
     $.getJSON("http://www.json-generator.com/api/json/get/bUqmHPelWq?indent=2", function (data) {
@@ -11,10 +11,10 @@ $(function(){
 
     // шаблон для генерации опросника
     var title = 'FrontEnd Quiz';
-    var btnValue = 'Check'
+    var btnValue = 'Check';
     var quizTemplate = document.getElementById('template').innerHTML;
     var html = _.template(quizTemplate)(test);
-    document.write(html);
+        document.write(html);
 
     // шаблон для кнопки
     var btnTemplate = document.getElementById('button').innerHTML;
@@ -65,4 +65,3 @@ function clearForm(name) {
             elements[i].checked = false;
     }
 };
-
